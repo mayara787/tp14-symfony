@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des taches{% endblock %}
+
+{% block body %}
+    <h1 class="mb-4">📰 Taches (depuis la BDD)</h1>
+
+    {% if taches is empty %}
+        <div class="alert alert-info">
+            Aucune tache en base de données. 
+            <a href="{{ path('app_tache_nouveau') }}" class="alert-link">Créer une tache</a>
+        </div>
+    {% else %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover mt-4">
+                <thead class="table-dark text-center">
+                    <tr>
+                        <th>ID</th>
+                        <th>Titre</th>
+                        <th>description</th>
+                        <th>terminee </th>
+                        <th>dateCreation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tache in taches %}
+                        <tr>
+                            <td class="text-center">{{ tache.id }}</td>
+                            <td>{{ tache.titre }}</td>
+                            <td>{{ tache.description }}</td>
+                            <td>{{ tache.dateCreation|date('d/m/Y') }}</td>
+                            <td class="text-center">
+                                {% if tache.terminee %}
+                                    <span class="badge bg-success">✅ terminée</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">📝 Brouillon</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <p class="mt-3 text-muted">
+            {{ taches|length }} tache(s) en base de données
+        </p>
+    {% endif %}
+{% endblock %}
