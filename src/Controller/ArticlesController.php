@@ -8,7 +8,8 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Article;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ArticleRepository;
-
+use App\Form\ArticleType;
+use Symfony\Component\HttpFoundation\Request;
 final class ArticlesController extends AbstractController
 {
     //    #[Route('/articles', name: 'app_articles')]
@@ -42,8 +43,7 @@ final class ArticlesController extends AbstractController
 
     // return new Response("Article créé avec l'id : " . $article->getId());
     // }
-use App\Form\ArticleType;
-use Symfony\Component\HttpFoundation\Request;
+
 
     #[Route('/articles/nouveau', name: 'app_article_nouveau')]
     public function nouveau(Request $request, EntityManagerInterface $em): Response
