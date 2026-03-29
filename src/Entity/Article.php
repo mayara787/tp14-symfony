@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\ArticleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,17 +14,37 @@ class Article
     #[ORM\Column]
     private ?int $id = null;
 
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le titre ne peut pas être vide.')]
+    #[Assert\Length(
+        min: 5,
+        max: 255,
+        minMessage: 'Le titre doit contenir au moins {{ limit }} caractères.',
+        maxMessage: 'Le titre ne peut pas dépasser {{ limit }} caractères.'
+    )]
     private ?string $titre = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+   #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'Le contenu ne peut pas être vide.')]
+    #[Assert\Length(
+        min: 20,
+        minMessage: 'Le contenu doit contenir au moins {{ limit }} caractères.'
+    )]
     private ?string $contenu = null;
 
-    #[ORM\Column(length: 100)]
+      #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'L\'auteur est obligatoire.')]
+    #[Assert\Length(
+        min: 2,
+        max: 100,
+        minMessage: 'Le nom de l\'auteur doit contenir au moins {{ limit }} caractères.'
+    )]
     private ?string $auteur = null;
 
-    #[ORM\Column]
-    private ?\DateTime $dateCreation = null;
+       #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotNull(message: 'La date de création est obligatoire.')]
+    private ?\DateTimeInterface $dateCreation = null;
 
     #[ORM\Column]
     private ?bool $publie = null;
